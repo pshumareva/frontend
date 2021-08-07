@@ -69,10 +69,12 @@ namespace Podkrepibg.Campaigns.Infrastructure.Persistence.Configurations
             builder
                 .Property(c => c.CreationDate)
                 .HasColumnName("created_at")
+                .HasColumnType("Date")
                 .IsRequired();
 
             builder
                 .Property(c => c.UpdateDate)
+                .HasColumnType("Date")
                 .HasColumnName("updated_at");
         }
     }

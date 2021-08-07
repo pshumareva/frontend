@@ -18,15 +18,17 @@ namespace Podkrepibg.Campaigns.IntegrationTests.CampaignsServiceTests
 
             var createBeneficiaryRequest = new CreateBeneficiaryRequest
             {
-                FirstName = _faker.Name.FirstName(),
-                LastName = _faker.Name.LastName(),
+                Name = _faker.Name.FirstName(),
+                DateOfBirth = _faker.Date,
                 Type = BeneficiaryType.Individual,
                 OrganizerId = Guid.NewGuid().ToString(),
                 CountryIsoCode = CountryCode.Bg,
                 City = City.Varna,
+                Address = $"{_faker.Address.BuildingNumber()} {_faker.Address.StreetAddress()}",
                 Email = _faker.Internet.Email(),
                 Phone = _faker.Phone.PhoneNumber(),
-                Website = _faker.Internet.Url()
+                Website = _faker.Internet.Url(),
+                ConnectionWithBeneficiary = BeneficiaryConnection.Friend
             };
 
             // Act
@@ -39,12 +41,14 @@ namespace Podkrepibg.Campaigns.IntegrationTests.CampaignsServiceTests
             createBeneficiaryResponse.Should().NotBeNull();
 
             var beneficiaryFromDb = await _appDbContext.Beneficiaries.FindAsync(Guid.Parse(createBeneficiaryResponse.Id));
-            beneficiaryFromDb.FirstName.Should().Be(createBeneficiaryRequest.FirstName);
-            beneficiaryFromDb.LastName.Should().Be(createBeneficiaryRequest.LastName);
+            beneficiaryFromDb.Name.Should().Be(createBeneficiaryRequest.Name);
+            beneficiaryFromDb.DateOfBirth.Should().Be(createBeneficiaryRequest.DateOfBirth);
             beneficiaryFromDb.Type.Should().Be(createBeneficiaryRequest.Type);
             beneficiaryFromDb.OrganizerId.ToString().Should().Be(createBeneficiaryRequest.OrganizerId);
             beneficiaryFromDb.ISO2CountryCode.Should().Be(createBeneficiaryRequest.CountryIsoCode);
             beneficiaryFromDb.City.Should().Be(createBeneficiaryRequest.City);
+            beneficiaryFromDb.Address.Should().Be(createBeneficiaryRequest.Address);
+            beneficiaryFromDb.ConnectionWithBeneficiary.Should().Be(createBeneficiaryRequest.ConnectionWithBeneficiary);
         }
     }
 }

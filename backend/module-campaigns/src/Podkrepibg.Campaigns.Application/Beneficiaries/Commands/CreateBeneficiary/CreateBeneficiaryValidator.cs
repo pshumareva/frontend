@@ -7,13 +7,13 @@ namespace Podkrepibg.Campaigns.Application.Beneficiaries.Commands.CreateBenefici
     {
         public CreateBeneficiaryValidator()
         {
-            RuleFor(b => b.Request.FirstName)
+            RuleFor(b => b.Request.Name)
                 .NotEmpty()
-                .MaximumLength(50);
+                .MaximumLength(100);
 
-            RuleFor(b => b.Request.LastName)
+            RuleFor(b => b.Request.DateOfBirth)
                 .NotEmpty()
-                .MaximumLength(50);
+                .WithMessage("date of birth is required");
 
             RuleFor(b => b.Request.Type)
                 .NotEmpty()
@@ -34,9 +34,17 @@ namespace Podkrepibg.Campaigns.Application.Beneficiaries.Commands.CreateBenefici
                 .IsInEnum()
                 .WithMessage("not a valid city provided");
 
+            RuleFor(b => b.Request.Address)
+                .MaximumLength(100);
+
             RuleFor(b => b.Request.Email)
                 .EmailAddress()
                 .MaximumLength(100);
+
+            RuleFor(b => b.Request.ConnectionWithBeneficiary)
+                .NotEmpty()
+                .IsInEnum()
+                .WithMessage("not a valid connection with beneficiary provided");
         }
     }
 }

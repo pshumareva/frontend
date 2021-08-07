@@ -2,7 +2,7 @@ namespace Podkrepibg.Campaigns.Domain.Types
 {
     public enum CampaignState
     {
-        Undefined = 0,
+        Unspecified = 0,
 
         Draft = 1,
 

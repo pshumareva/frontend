@@ -2,7 +2,7 @@ namespace Podkrepibg.Campaigns.Domain.Types
 {
     public enum ISO2CountryCode
     {
-        Undefined = 0,
+        Unspecified = 0,
 
         AD = 1,
 

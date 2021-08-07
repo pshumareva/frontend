@@ -26,15 +26,17 @@ namespace Podkrepibg.Campaigns.Application.Beneficiaries.Commands.CreateBenefici
             var beneficiaryRequest = request.Request;
             var beneficiary = new BeneficiaryEntity
             {
-                FirstName = beneficiaryRequest.FirstName,
-                LastName = beneficiaryRequest.LastName,
+                Name = beneficiaryRequest.Name,
+                DateOfBirth = beneficiaryRequest.DateOfBirth,
                 Type = (BeneficiaryType)beneficiaryRequest.Type,
                 OrganizerId = Guid.Parse(beneficiaryRequest.OrganizerId),
                 ISO2CountryCode = (ISO2CountryCode)beneficiaryRequest.CountryIsoCode,
                 City = (City)beneficiaryRequest.City,
+                Address = beneficiaryRequest.Address,
                 Email = beneficiaryRequest.Email,
                 Phone = beneficiaryRequest.Phone,
-                AdditionalDetails = new BeneficiaryAdditionalDetails(beneficiaryRequest.Website)
+                AdditionalDetails = new BeneficiaryAdditionalDetails(beneficiaryRequest.Website),
+                ConnectionWithBeneficiary = beneficiaryRequest.ConnectionWithBeneficiary
             };
 
             var trackedEntity = _dbContext.Beneficiaries.Add(beneficiary);

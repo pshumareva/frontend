@@ -19,13 +19,13 @@ namespace Podkrepibg.Campaigns.Infrastructure.Persistence.Configurations
               .HasDefaultValueSql("gen_random_uuid()");
 
             builder
-              .Property(b => b.FirstName)
-              .HasMaxLength(50)
+              .Property(b => b.Name)
+              .HasMaxLength(100)
               .IsRequired();
 
             builder
-              .Property(b => b.LastName)
-              .HasMaxLength(50)
+              .Property(b => b.DateOfBirth)
+              .HasColumnType("Date")
               .IsRequired();
 
             builder
@@ -48,6 +48,10 @@ namespace Podkrepibg.Campaigns.Infrastructure.Persistence.Configurations
               .IsRequired();
 
             builder
+              .Property(b => b.Address)
+              .HasMaxLength(100);
+
+            builder
               .HasIndex(u => u.Email)
               .IsUnique();
 
@@ -65,6 +69,10 @@ namespace Podkrepibg.Campaigns.Infrastructure.Persistence.Configurations
                 .HasConversion(
                     a => JsonConvert.SerializeObject(a),
                     a => JsonConvert.DeserializeObject<BeneficiaryAdditionalDetails>(a));
+
+            builder
+                .Property(b => b.ConnectionWithBeneficiary)
+                .HasConversion<int>();
         }
     }
 }
