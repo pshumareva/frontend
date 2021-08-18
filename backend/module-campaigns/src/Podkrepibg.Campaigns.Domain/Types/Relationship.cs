@@ -1,6 +1,6 @@
 namespace Podkrepibg.Campaigns.Domain.Types
 {
-    public enum BeneficiaryConnection
+    public enum Relationship
     {
         Unspecified = 0,
 

@@ -5,6 +5,7 @@ namespace Podkrepibg.Campaigns.IntegrationTests.CampaignsServiceTests
     using DataContracts.Campaign;
     using DataContracts.Common.Nomenclatures;
     using FluentAssertions;
+    using Google.Protobuf.WellKnownTypes;
     using Grpc.Core;
     using Moq;
     using NUnit.Framework;
@@ -19,7 +20,7 @@ namespace Podkrepibg.Campaigns.IntegrationTests.CampaignsServiceTests
             var createBeneficiaryRequest = new CreateBeneficiaryRequest
             {
                 Name = _faker.Name.FirstName(),
-                DateOfBirth = _faker.Date,
+                DateOfBirth = Timestamp.FromDateTime(DateTime.SpecifyKind(new DateTime(1980, 5, 20), DateTimeKind.Utc)),
                 Type = BeneficiaryType.Individual,
                 OrganizerId = Guid.NewGuid().ToString(),
                 CountryIsoCode = CountryCode.Bg,
@@ -28,7 +29,8 @@ namespace Podkrepibg.Campaigns.IntegrationTests.CampaignsServiceTests
                 Email = _faker.Internet.Email(),
                 Phone = _faker.Phone.PhoneNumber(),
                 Website = _faker.Internet.Url(),
-                ConnectionWithBeneficiary = BeneficiaryConnection.Friend
+                OtherLink = _faker.Internet.Url(),
+                Relationship = Relationship.Friend
             };
 
             // Act
@@ -42,13 +44,13 @@ namespace Podkrepibg.Campaigns.IntegrationTests.CampaignsServiceTests
 
             var beneficiaryFromDb = await _appDbContext.Beneficiaries.FindAsync(Guid.Parse(createBeneficiaryResponse.Id));
             beneficiaryFromDb.Name.Should().Be(createBeneficiaryRequest.Name);
-            beneficiaryFromDb.DateOfBirth.Should().Be(createBeneficiaryRequest.DateOfBirth);
+            beneficiaryFromDb.DateOfBirth.Should().Be(createBeneficiaryRequest.DateOfBirth.ToString());
             beneficiaryFromDb.Type.Should().Be(createBeneficiaryRequest.Type);
             beneficiaryFromDb.OrganizerId.ToString().Should().Be(createBeneficiaryRequest.OrganizerId);
             beneficiaryFromDb.ISO2CountryCode.Should().Be(createBeneficiaryRequest.CountryIsoCode);
             beneficiaryFromDb.City.Should().Be(createBeneficiaryRequest.City);
             beneficiaryFromDb.Address.Should().Be(createBeneficiaryRequest.Address);
-            beneficiaryFromDb.ConnectionWithBeneficiary.Should().Be(createBeneficiaryRequest.ConnectionWithBeneficiary);
+            beneficiaryFromDb.Relationship.Should().Be(createBeneficiaryRequest.Relationship);
         }
     }
 }

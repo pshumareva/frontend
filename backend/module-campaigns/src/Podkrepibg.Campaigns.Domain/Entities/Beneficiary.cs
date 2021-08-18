@@ -28,7 +28,7 @@ namespace Podkrepibg.Campaigns.Domain.Entities
 
         public BeneficiaryAdditionalDetails AdditionalDetails { get; set; }
 
-        public BeneficiaryConnection ConnectionWithBeneficiary { get; set; }
+        public Relationship Relationship { get; set; }
 
         public virtual ICollection<Campaign> Campaigns { get; set; }
     }

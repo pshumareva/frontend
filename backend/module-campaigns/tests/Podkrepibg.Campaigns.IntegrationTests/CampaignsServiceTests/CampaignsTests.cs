@@ -113,8 +113,7 @@ namespace Podkrepibg.Campaigns.IntegrationTests.CampaignsServiceTests
 
             var beneficiary = new Domain.Entities.Beneficiary
             {
-                FirstName = _faker.Name.FirstName(),
-                LastName = _faker.Name.LastName(),
+                Name = _faker.Name.FirstName(),
                 Type = BeneficiaryType.Individual,
                 OrganizerId = Guid.NewGuid(),
                 ISO2CountryCode = ISO2CountryCode.BG,

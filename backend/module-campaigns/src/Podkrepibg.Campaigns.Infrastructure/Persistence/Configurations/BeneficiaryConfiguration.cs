@@ -71,7 +71,7 @@ namespace Podkrepibg.Campaigns.Infrastructure.Persistence.Configurations
                     a => JsonConvert.DeserializeObject<BeneficiaryAdditionalDetails>(a));
 
             builder
-                .Property(b => b.ConnectionWithBeneficiary)
+                .Property(b => b.Relationship)
                 .HasConversion<int>();
         }
     }

@@ -13,6 +13,7 @@ namespace Podkrepibg.Campaigns.Application.Beneficiaries.Commands.CreateBenefici
 
             RuleFor(b => b.Request.DateOfBirth)
                 .NotEmpty()
+                .When(b => b.Request.Type == DataContracts.Common.Nomenclatures.BeneficiaryType.Individual)
                 .WithMessage("date of birth is required");
 
             RuleFor(b => b.Request.Type)
@@ -35,16 +36,25 @@ namespace Podkrepibg.Campaigns.Application.Beneficiaries.Commands.CreateBenefici
                 .WithMessage("not a valid city provided");
 
             RuleFor(b => b.Request.Address)
-                .MaximumLength(100);
+                .MaximumLength(200);
 
             RuleFor(b => b.Request.Email)
                 .EmailAddress()
                 .MaximumLength(100);
 
-            RuleFor(b => b.Request.ConnectionWithBeneficiary)
+            RuleFor(b => b.Request.Phone)
+                .MaximumLength(50);
+
+            RuleFor(b => b.Request.Relationship)
                 .NotEmpty()
                 .IsInEnum()
-                .WithMessage("not a valid connection with beneficiary provided");
+                .WithMessage("not a valid relationship with beneficiary provided");
+
+            RuleFor(b => b.Request.Website)
+                .MaximumLength(500);
+
+            RuleFor(b => b.Request.OtherLink)
+                .MaximumLength(500);
         }
     }
 }

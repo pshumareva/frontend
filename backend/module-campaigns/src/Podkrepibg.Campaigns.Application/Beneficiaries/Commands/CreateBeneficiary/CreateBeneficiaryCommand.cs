@@ -8,6 +8,7 @@ namespace Podkrepibg.Campaigns.Application.Beneficiaries.Commands.CreateBenefici
     using Podkrepibg.Campaigns.Application.Data;
     using Podkrepibg.Campaigns.Domain.Types;
     using BeneficiaryAdditionalDetails = Domain.Types.BeneficiaryAdditionalDetails;
+    using Relationship = Domain.Types.Relationship;
     using BeneficiaryEntity = Domain.Entities.Beneficiary;
 
     public record CreateBeneficiaryCommand(CreateBeneficiaryRequest Request) : IRequest<CreateBeneficiaryResponse>;
@@ -27,7 +28,7 @@ namespace Podkrepibg.Campaigns.Application.Beneficiaries.Commands.CreateBenefici
             var beneficiary = new BeneficiaryEntity
             {
                 Name = beneficiaryRequest.Name,
-                DateOfBirth = beneficiaryRequest.DateOfBirth,
+                DateOfBirth = beneficiaryRequest.DateOfBirth.ToString(),
                 Type = (BeneficiaryType)beneficiaryRequest.Type,
                 OrganizerId = Guid.Parse(beneficiaryRequest.OrganizerId),
                 ISO2CountryCode = (ISO2CountryCode)beneficiaryRequest.CountryIsoCode,
@@ -36,7 +37,7 @@ namespace Podkrepibg.Campaigns.Application.Beneficiaries.Commands.CreateBenefici
                 Email = beneficiaryRequest.Email,
                 Phone = beneficiaryRequest.Phone,
                 AdditionalDetails = new BeneficiaryAdditionalDetails(beneficiaryRequest.Website),
-                ConnectionWithBeneficiary = beneficiaryRequest.ConnectionWithBeneficiary
+                Relationship = (Relationship)beneficiaryRequest.Relationship
             };
 
             var trackedEntity = _dbContext.Beneficiaries.Add(beneficiary);
