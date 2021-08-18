@@ -36,7 +36,7 @@ namespace Podkrepibg.Campaigns.Application.Beneficiaries.Commands.CreateBenefici
                 Address = beneficiaryRequest.Address,
                 Email = beneficiaryRequest.Email,
                 Phone = beneficiaryRequest.Phone,
-                AdditionalDetails = new BeneficiaryAdditionalDetails(beneficiaryRequest.Website),
+                AdditionalDetails = new BeneficiaryAdditionalDetails(beneficiaryRequest.Website, beneficiaryRequest.OtherLink),
                 Relationship = (Relationship)beneficiaryRequest.Relationship
             };
 

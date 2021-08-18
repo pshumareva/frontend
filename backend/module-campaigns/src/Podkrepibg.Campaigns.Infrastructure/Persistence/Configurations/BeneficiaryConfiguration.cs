@@ -25,8 +25,7 @@ namespace Podkrepibg.Campaigns.Infrastructure.Persistence.Configurations
 
             builder
               .Property(b => b.DateOfBirth)
-              .HasColumnType("Date")
-              .IsRequired();
+              .HasColumnType("Date");
 
             builder
               .Property(b => b.Type)
@@ -49,7 +48,8 @@ namespace Podkrepibg.Campaigns.Infrastructure.Persistence.Configurations
 
             builder
               .Property(b => b.Address)
-              .HasMaxLength(100);
+              .HasMaxLength(100)
+              .IsRequired();
 
             builder
               .HasIndex(u => u.Email)

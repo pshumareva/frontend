@@ -36,6 +36,7 @@ namespace Podkrepibg.Campaigns.Application.Beneficiaries.Commands.CreateBenefici
                 .WithMessage("not a valid city provided");
 
             RuleFor(b => b.Request.Address)
+                .NotEmpty()
                 .MaximumLength(200);
 
             RuleFor(b => b.Request.Email)
@@ -45,16 +46,15 @@ namespace Podkrepibg.Campaigns.Application.Beneficiaries.Commands.CreateBenefici
             RuleFor(b => b.Request.Phone)
                 .MaximumLength(50);
 
-            RuleFor(b => b.Request.Relationship)
-                .NotEmpty()
-                .IsInEnum()
-                .WithMessage("not a valid relationship with beneficiary provided");
-
             RuleFor(b => b.Request.Website)
                 .MaximumLength(500);
 
             RuleFor(b => b.Request.OtherLink)
                 .MaximumLength(500);
+
+            RuleFor(b => b.Request.Relationship)
+                .IsInEnum()
+                .WithMessage("not a valid relationship with beneficiary provided");
         }
     }
 }
