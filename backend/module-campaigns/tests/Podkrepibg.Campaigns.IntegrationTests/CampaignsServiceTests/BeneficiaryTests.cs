@@ -16,7 +16,6 @@ namespace Podkrepibg.Campaigns.IntegrationTests.CampaignsServiceTests
         public async Task CreateBeneficiary_WithRandomValidRequest_ShouldPersistCorrectly()
         {
             // Arrange
-
             var createBeneficiaryRequest = new CreateBeneficiaryRequest
             {
                 Name = _faker.Name.FirstName(),
@@ -34,12 +33,10 @@ namespace Podkrepibg.Campaigns.IntegrationTests.CampaignsServiceTests
             };
 
             // Act
-
             var createBeneficiaryResponse = await _campaignsService.CreateBeneficiary(
                 createBeneficiaryRequest, Mock.Of<ServerCallContext>());
 
             // Assert
-
             createBeneficiaryResponse.Should().NotBeNull();
 
             var beneficiaryFromDb = await _appDbContext.Beneficiaries.FindAsync(Guid.Parse(createBeneficiaryResponse.Id));
@@ -50,6 +47,10 @@ namespace Podkrepibg.Campaigns.IntegrationTests.CampaignsServiceTests
             beneficiaryFromDb.ISO2CountryCode.Should().Be(createBeneficiaryRequest.CountryIsoCode);
             beneficiaryFromDb.City.Should().Be(createBeneficiaryRequest.City);
             beneficiaryFromDb.Address.Should().Be(createBeneficiaryRequest.Address);
+            beneficiaryFromDb.Email.Should().Be(createBeneficiaryRequest.Email);
+            beneficiaryFromDb.Phone.Should().Be(createBeneficiaryRequest.Phone);
+            beneficiaryFromDb.AdditionalDetails.Website.Should().Be(createBeneficiaryRequest.Website);
+            beneficiaryFromDb.AdditionalDetails.OtherLink.Should().Be(createBeneficiaryRequest.OtherLink);
             beneficiaryFromDb.Relationship.Should().Be(createBeneficiaryRequest.Relationship);
         }
     }
