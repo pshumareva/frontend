@@ -2,8 +2,13 @@
   "nav": {
     "home": "Начало",
     "about": "За нас",
+    "blog": "Блог",
     "about-project": "За проекта",
     "contacts": "Контакти",
+    "campaigns": {
+      "index": "Кампании",
+      "create": "Създай кампания"
+    },
     "support-us": "Подкрепи ни",
     "profile": "Моят профил",
     "login": "Вход",
@@ -21,6 +26,9 @@
     "error": "Възникна грешка! Опитайте отново!"
   },
   "link": "Линк",
+  "improve-this-page": "Подобри тази страница:",
+  "github-link-text": "Гитхъб Код",
+  "figma-link-text": "Фигма Дизайн",
   "footerLabels": {
     "aboutUs": "За нас",
     "aboutProject": "За проекта",

@@ -10,16 +10,20 @@ import {
   Typography,
 } from '@material-ui/core'
 
-import MobileNav from './nav/MobileNav'
 import Footer from 'components/layout/Footer'
 import { defaultOgImage } from 'common/routes'
 import Snackbar from 'components/layout/Snackbar'
 import AppNavBar from 'components/layout/AppNavBar'
 
+import ImproveThisPageTag from './ImproveThisPageTag'
+import MobileNav from './nav/MobileNav'
+
 type LayoutProps = React.PropsWithChildren<
   ContainerProps & {
     title?: string
     ogImage?: string
+    githubUrl?: string
+    figmaUrl?: string
     disableOffset?: boolean
   }
 >
@@ -49,6 +53,8 @@ export default function Layout({
   children,
   maxWidth = 'md',
   disableOffset = false,
+  githubUrl,
+  figmaUrl,
   ...containerProps
 }: LayoutProps) {
   const classes = useStyles()
@@ -80,6 +86,9 @@ export default function Layout({
               className={classes.pageTitle}>
               {title}
             </Typography>
+          )}
+          {githubUrl && figmaUrl && (
+            <ImproveThisPageTag githubUrl={githubUrl} figmaUrl={figmaUrl} />
           )}
           {children}
         </Box>

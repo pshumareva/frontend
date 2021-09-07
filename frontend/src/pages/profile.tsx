@@ -1,26 +1,28 @@
-import { GetServerSideProps } from 'next'
-import { Session } from 'next-auth'
-import { getSession } from 'next-auth/client'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import { routes } from 'common/routes'
 import ProfilePage from 'components/auth/profile/ProfilePage'
 
-export type ProfilePageProps = { session: Session | null }
-
-export const getServerSideProps: GetServerSideProps<ProfilePageProps> = async (ctx) => {
-  const session = await getSession(ctx)
-
-  if (!session) {
-    ctx.res.statusCode = 302
-    ctx.res.setHeader('Location', routes.login)
-    ctx.res.end()
+import { parseCookies } from 'nookies'
+const parseKeycloakCookies = (ctx: GetServerSidePropsContext) => {
+  const cookies = parseCookies(ctx)
+  return {
+    kcToken: cookies['kcToken'] ?? null,
+    kcIdToken: cookies['kcIdToken'] ?? null,
   }
+}
 
+export type ProfilePageProps = {
+  keyCookies: {
+    kcToken: string | null
+    kcIdToken: string | null
+  }
+}
+export const getServerSideProps: GetServerSideProps<ProfilePageProps> = async (ctx) => {
   return {
     props: {
       ...(await serverSideTranslations(ctx.locale ?? 'bg', ['common'])),
-      session,
+      keyCookies: parseKeycloakCookies(ctx),
     },
   }
 }

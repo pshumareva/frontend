@@ -6,6 +6,15 @@ const { withSentryConfig } = require('@sentry/nextjs')
 const { i18n } = require('./next-i18next.config')
 
 /**
+ * @type {import('keycloak-js').KeycloakConfig}
+ */
+const keycloakConfig = {
+  url: 'https://keycloak-dev.podkrepi.bg/auth',
+  realm: process.env.KEYCLOAK_REALM, // ?? 'webapp-dev',
+  clientId: process.env.KEYCLOAK_CLIENT_ID, // ?? 'account',
+}
+
+/**
  * @type {import('next').NextConfig}
  */
 const moduleExports = {
@@ -17,22 +26,21 @@ const moduleExports = {
     APP_ENV: process.env.APP_ENV,
     SENTRY_DSN: process.env.SENTRY_DSN,
     DEPLOY_TAG: process.env.DEPLOY_TAG,
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_KEY: process.env.NEXT_PUBLIC_SUPABASE_KEY,
   },
   serverRuntimeConfig: {
-    JWT_SECRET: process.env.JWT_SECRET,
     DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     services: {
-      apiUrl: 'http://api.podkrepi.localhost:5000',
+      apiUrl: `${process.env.API_URL}:${process.env.REST_API_PORT}`,
     },
   },
   publicRuntimeConfig: {
     APP_ENV: process.env.APP_ENV,
     API_URL: process.env.API_URL,
     APP_URL: process.env.APP_URL,
+    GRAPHQL_URL: process.env.GRAPHQL_URL,
     GTM_ID: 'GTM-TWQBXM6',
+    keycloakConfig,
   },
 }
 

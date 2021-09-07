@@ -1,19 +1,36 @@
 import Head from 'next/head'
+import getConfig from 'next/config'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import { ThemeProvider } from '@material-ui/core/styles'
-import { Provider as SessionProvider } from 'next-auth/client'
 import { appWithTranslation, useTranslation } from 'next-i18next'
+
+// Apollo
+import withApollo from 'next-with-apollo'
+import { useApollo } from 'gql/apollo-client'
+import { getDataFromTree } from '@apollo/react-ssr'
+import { ApolloProvider } from '@apollo/react-hooks'
+import ApolloClient, { InMemoryCache } from 'apollo-boost'
+
+// MaterialUI
+import { LinearProgress } from '@material-ui/core'
+import { ThemeProvider } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
+
+// Keycloak
+import { SSRKeycloakProvider, SSRCookies } from '@react-keycloak/ssr'
+
+const {
+  publicRuntimeConfig: { GRAPHQL_URL, keycloakConfig },
+} = getConfig()
 
 import theme from 'common/theme'
 import useGTM from 'common/util/useGTM'
 
 import 'styles/global.scss'
 
-function CustomApp(props: AppProps) {
-  const { Component, pageProps } = props
+function CustomApp({ Component, pageProps }: AppProps) {
+  const apollo = useApollo(pageProps)
   const router = useRouter()
   const { i18n } = useTranslation()
   const { initialize, trackEvent } = useGTM()
@@ -53,7 +70,7 @@ function CustomApp(props: AppProps) {
   }, [i18n.language])
 
   return (
-    <React.Fragment>
+    <ApolloProvider client={apollo}>
       <Head>
         <title>Podkrepi.bg</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
@@ -61,12 +78,26 @@ function CustomApp(props: AppProps) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <SessionProvider session={pageProps.session}>
+        <SSRKeycloakProvider
+          LoadingComponent={<LinearProgress />}
+          onEvent={(e, err) => console.log(e, err)}
+          keycloakConfig={keycloakConfig}
+          persistor={SSRCookies(pageProps?.keyCookies ?? {})}>
           <Component {...pageProps} />
-        </SessionProvider>
+        </SSRKeycloakProvider>
       </ThemeProvider>
-    </React.Fragment>
+    </ApolloProvider>
   )
 }
 
-export default appWithTranslation(CustomApp)
+const TranslatedApp = appWithTranslation(CustomApp)
+// export default TranslatedApp
+export default withApollo(
+  ({ initialState }) => {
+    return new ApolloClient({
+      uri: GRAPHQL_URL,
+      cache: new InMemoryCache().restore(initialState || {}),
+    })
+  },
+  { getDataFromTree },
+)(TranslatedApp)
