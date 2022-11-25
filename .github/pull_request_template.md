@@ -1,6 +1,7 @@
 <!--- Provide a general summary of your changes in the Title above -->
 
 <!--- If it fixes an open issue, please link to the issue here. -->
+
 Closes #{issue number}
 
 ## Motivation and context
@@ -15,9 +16,9 @@ Closes #{issue number}
 
 <!-- You can copy/paste screenshots directly in the editor -->
 
-Before|After
----|---
-Paste screenshot|Paste screenshot
+| Before           | After            |
+| ---------------- | ---------------- |
+| Paste screenshot | Paste screenshot |
 
 <!-- List of pages that are affected by the changes -->
 
@@ -45,7 +46,6 @@ Paste screenshot|Paste screenshot
 
 <!-- including dev dependencies -->
 
-Dependency name|Previous version|Updated version|Details
----|---|---|---
-`dependency/name`|`v1.0.0`|`v2.0.0`|
-
+| Dependency name   | Previous version | Updated version | Details |
+| ----------------- | ---------------- | --------------- | ------- |
+| `dependency/name` | `v1.0.0`         | `v2.0.0`        |
