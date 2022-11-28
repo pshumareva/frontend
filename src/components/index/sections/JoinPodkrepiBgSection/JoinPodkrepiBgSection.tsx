@@ -27,6 +27,7 @@ export default function WantToHelpPodkrepiBgSection() {
             width={1189}
             height={789}
             priority
+            layout="intrinsic"
           />
         </Box>
         <BecomeVolunteerButton
